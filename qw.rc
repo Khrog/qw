@@ -1,18 +1,7 @@
-# This rcfile is a modified version of elliptic's DCSS bot "qw", the first 
-# (and thus far only) bot to win DCSS with no human assistance. A substantial 
-# amount of code here was contributed by elliott or borrowed from N78291's 
-# bot "xw", and many others have contributed as well.
-#
-# Khrog has made the following changes/tests
-# Changed logic for the Shining One's ability usage
-# Changed slightly the order of how dungeon branches are done.  Some of this was
-# for 0.19 versions as some of the number of levels changed.
-# The slight change in order seems to help in the mid game and while gathering runes
-# because the character is slightly stronger
-# Started to play with spells.  Successfully able to acquire and cast Haste
-# Haste skills need to be modified a bit as to what exact targets to reach.
-# I intend to have Haste be a 90%+ success rate.  I have made the edits to
-# swap into a lighter armour after going from heavy build to a hybrid.
+# This rcfile is elliptic's DCSS bot "qw", the first (and thus far only) bot
+# to win DCSS with no human assistance. A substantial amount of code here was
+# contributed by elliott or borrowed from N78291's bot "xw", and many others
+# have contributed as well.
 
 # For brief instructions and the most up-to-date version of qw, see
 # https://github.com/elliptic/qw.
@@ -23,25 +12,22 @@
 : DELAYED = false
 # Delay per action in milliseconds.
 # Set this to at least 100 or so when playing online.
-: DELAY_TIME = 100
+: DELAY_TIME = 125
 # whether to start playing immediately when a new game is started
 # unfortunately this doesn't work if the game starts with a -more-
-: AUTO_START = true
+: AUTO_START = false
 # experimental: do second lair rune branch before depths
 : EARLY_SECOND_RUNE = true
 # experimental: wait to do Orc until after D:15
 : LATE_ORC = true
-# Will attempt Elven Halls after acquiring a rune
-: TRY_ELF = false
 # lair rune preferences, current options are:
 # * random - no preference, chooses randomly
 # * nowater - does Snake/Spider first
 # * smart - currently prefers Spider > Snake/Swamp > Shoals
 # * dsmart - Swamp/Spider > Snake > Shoals (DsBe data)
-: RUNE_PREFERENCE = "dsmart"
+: RUNE_PREFERENCE = "random"
 # experimental: get abyssal rune
 : ABYSSAL_RUNE = false
-: TOMB_RUNE = false
 : ABYSS_RUNE_DEPTH = "Abyss:3"
 # experimental: get slimy rune
 : SLIMY_RUNE = false
@@ -52,7 +38,7 @@
 # burn books with Trog, may theoretically cause navigation problems
 : BURN_BOOKS = true
 # enable certain somewhat spammy notes
-: SPAM = true
+: SPAM = false
 # tab just takes a single action (for testing)
 : SINGLE_STEP = false
 # panic (stop) at full inventory
@@ -61,41 +47,25 @@
 : QUIT_TURNS = 1000
 # use a shield at all cost
 : SHIELD_CRAZY = true
-# Staff stuff
-: FOUND_EARTHSTAFF = false
-: GO_TSO = false
 : TRY_SPELLS = false
 
 # acceptable gods (will not abandon)
-# GOD_LIST = { "Cheibriados", "Okawaru", "Trog", }
-: MU_GOD_LIST = { "Cheibriados", "Vehumet", }
-: GOD_LIST = { "Okawaru", "Trog", "the Shining One", "Makhleb", "Dithmenos", }
-: DD_GOD_LIST = { "Trog", "Makhleb", "Okawaru", "the Shining One", }
+: GOD_LIST = { "Trog", "Makhleb", "Ru", "Cheibriados", "Okawaru",}
+: DD_GOD_LIST = { "Trog", "Makhleb", "Ru", }
 # preferred gods (will join)
-# GOD_DESIRED = { "Cheibriados", "Okawaru", "Trog", }
-# GOD_DESIRED = { "Okawaru", "Makhleb", }
-: GOD_DESIRED = { "the Shining One", }
-: DD_GOD_DESIRED = { "Trog", "Makhleb", "Okawaru", }
-: MU_GOD_DESIRED = { "Cheibriados", "Vehumet", }
+: GOD_DESIRED = { "Trog", }
+: DD_GOD_DESIRED = { "Trog", "Makhleb", }
 
 # cycle through combos using c_persist.options
-: COMBO_CYCLE = true
+: COMBO_CYCLE = false
 # combos to cycle through - uses the same syntax as the regular combo option
 # with an optional "^<god initials>" suffix to overwrite the GOD_LIST and
 # GOD_DESIRED lists above. Here are some sample choices:
-# COMBO_CYCLE_LIST = "DDFi.waraxe^Makhleb, DDBe.handaxe, GrBe.handaxe, MiBe.handaxe"
-# COMBO_CYCLE_LIST = "DDFi.waraxe^Makhleb, GrFi.waraxe, DDFi.waraxe, GrFi.flail"
-: COMBO_CYCLE_LIST = "GrFi.waraxe, HOFi.waraxe, MiFi.waraxe"
+: COMBO_CYCLE_LIST = "DDFi.waraxe^M, DDBe.handaxe, GrBe.handaxe, MiFi.waraxe^R"
 
 # Choose randomly between these combos. This will not apply if the COMBO_CYCLE
 # option was on in your _previous_ game.
-#combo = DDFi.waraxe^Makhleb, DDBe.handaxe, GrBe.handaxe, MiBe.handaxe, TrBe.claws
-#combo = GrFi.waraxe, TrMo.claws, TrFi.claws, TrFi.waraxe
-#combo = DDBe.handaxe, DDFi.waraxe, KoBe.mace, GrBe.handaxe
-#combo = MiGl.quarterstaff, OgHu.largerocks
-#combo = HOFi.waraxe, TeBe.handaxe, DDFi.waraxe, DsBe.handaxe, MiFi.waraxe, MiBe.handaxe, DsFi.waraxe, HOBe.handaxe
-#combo = GrFi.waraxe, HOFi.waraxe, MiFi.waraxe
-combo = GrFi.waraxe, HOFi.waraxe 
+combo = DDFi.waraxe, GrBe.handaxe, MiBe.handaxe
 
 # For random berserkers, use these combos:
 #combo = CeBe.handaxe, DDBe.handaxe, DEBe.handaxe, DrBe.handaxe, DsBe.handaxe
@@ -123,7 +93,6 @@ combo = GrFi.waraxe, HOFi.waraxe
 # Some custom logic might be warranted in that space.  Maybe even Jivya worship?
 # Dithmenos could successfully win.  Lost on ascent with Orb.
 
-
 #####################################
 # enum values :/
 : ENUM_MONS_PANDEMONIUM_LORD = 344
@@ -135,7 +104,7 @@ combo = GrFi.waraxe, HOFi.waraxe
 #####################################
 # miscellaneous simple options
 
-name = kzbot
+name = qw
 restart_after_game = false
 
 ability_menu = false
@@ -294,6 +263,8 @@ local offlevel_travel = true
 local last_min_delay_skill = 18
 
 local only_linear_resists = false
+
+local no_spells = false
 
 -- options to set while qw is running
 -- maybe should add more mutes for watchability
@@ -777,7 +748,7 @@ function resist_dominated(it,it2)
 end
 
 function rune_goal()
-  return 3 + (ABYSSAL_RUNE and 1 or 0) + (SLIMY_RUNE and 1 or 0) + (TOMB_RUNE and 1 or 0)
+  return 3 + (ABYSSAL_RUNE and 1 or 0) + (SLIMY_RUNE and 1 or 0)
 end
 
 function easy_runes()
@@ -953,6 +924,9 @@ function armour_value(it, cur, it2)
 end
 
 function weapon_value(it, cur, it2, hydra_swap)
+  if it.class(true) ~= "weapon" then
+    return -1,-1
+  end
   local name = it.name()
   local value = 1000
   if it.weap_skill ~= wskill() then
@@ -965,20 +939,8 @@ function weapon_value(it, cur, it2, hydra_swap)
       end
     end
   end
-
-  if you.class() == "Earth Elementalist" and it.weap_skill ~= "Staves" then
-    value = value - 200
-  end
-
   if you.god() == "Cheibriados" and name:find("quick blade") then
     return -1,-1
-  end
-  if name:find("staff of earth") then
-    if wskill() == "Staves" then
-      value = (skill_value("Evocations") + skill_value("Earth Magic")) * 40
-    else
-      return -1,-1
-    end
   end
   -- FIXME: should check for other demon weapons too (ideally in a better
   --        way than this) and should also maybe carry one to holy brand.
@@ -1056,8 +1018,6 @@ function weapon_value(it, cur, it2, hydra_swap)
       if you.god() == "the Shining One" then
         return -1,-1
       end
-    elseif ego == "flaming" and you.god() == "Dithmenos" then
-      return -1,-1
     elseif ego == "flaming" or ego == "freezing"
            or ego == "crushing" or ego == "slicing"
            or ego == "piercing" or ego == "chopping" or ego == "slashing" then
@@ -1199,8 +1159,6 @@ function ring_value(it, cur, it2)
       linval = 30
     elseif subtype == "ring of dexterity" then
       linval = 20
-    elseif subtype == "ring of resist corrosion" and in_branch("M") then
-      linval = 1000
     end
     value = value + 6*linval
     if not cur then
@@ -1228,6 +1186,14 @@ function count_charges(wand_type, ignore_it)
     end
   end
   return count
+end
+
+function want_book(it)
+  if it.name() == "a Book of Enchantments" then 
+    return true
+  else
+    return false
+  end
 end
 
 function want_wand(it)
@@ -1285,14 +1251,6 @@ function want_scroll(it)
     return false
   end
   return true
-end
-
-function want_book(it)
-  if it.name() == "a Book of Enchantments" then 
-    return true
-  else
-    return false
-  end
 end
 
 function item_is_dominated(it)
@@ -1371,23 +1329,14 @@ function want_missile(it)
   if it.ego() == "poison" and you.god() == "the Shining One" then
     return false
   end
-  if you.class() == "Earth Elementalist" then
-    return (st == "stones" and you.xl() < 13)
-  else 
-    return (st == "large rock" and (you.race() == "Troll" or you.race() == "Ogre") or st == "javelin" and you.xl() < 21 or st == "tomahawk" and you.xl() < 15)
+  if not no_spells and st == "stone" and starting_spell() == "Sandblast" then
+    return true
   end
+  return (st == "large rock" and (you.race() == "Troll" or you.race() == "Ogre") or st == "javelin" and you.xl() < 21 or st == "tomahawk" and you.xl() < 15)
 end
 
 function autopickup(it, name)
   if name:find("of Zot") then
-    return true
-  end
-  if name:find("Book of Enchantments") then
-    return true
-  end
-  if name:find("staff of earth") and wskill() == "Staves" then 
-    FOUND_EARTHSTAFF = TRUE
-    say("FOUND EARTHSTAFF.")
     return true
   end
   if it.is_useless then
@@ -1426,7 +1375,7 @@ add_autopickup_func(autopickup)
 local branch_data = {
   {"T", "the Ecumenical Temple", "Temple"},
   {"O", "the Orcish Mines", "Orc"},
-  {"E", "the Elven Halls", "Elf"},
+  --{"E", "the Elven Halls", "Elf"},
   {"L", "the Lair", "Lair"},
   {"S", "the Swamp", "Swamp"},
   {"A", "the Shoals", "Shoals"},
@@ -1434,8 +1383,8 @@ local branch_data = {
   {"N", "the Spider Nest", "Spider"},
   {"M", "the Slime Pits", "Slime"},
   {"V", "the Vaults", "Vaults"},
-  {"C", "the Crypt", "Crypt"},
-  {"W", "the Tomb", "Tomb"},
+  --{"C", "the Crypt", "Crypt"},
+  --{"W", "the Tomb", "Tomb"},
   {"D", "the Dungeon", "D:"},
   {"U", "the Depths", "Depths"},
   {"Z", "Zot", "Zot"},
@@ -1878,16 +1827,11 @@ end
 --        7 encumbrance
 function armour_plan()
   local sp = you.race()
-  if know_spell("Haste") then 
-    return "light"
-  end
   if sp == "Ogre" or sp == "Troll" then
     return "large"
   elseif sp == "Deep Elf" or sp == "Halfling" or sp == "Kobold"
          or sp == "Merfolk" then
     return "dodgy"
-  elseif is_magic_user() then
-    return "magic" 
   elseif sp:find("Draconian") or sp == "Felid" or sp == "Octopode"
          or sp == "Spriggan" then
     return "light"
@@ -1916,12 +1860,6 @@ function want_buckler()
   if you.race() == "Felid" then
     return false
   end
-  if wskill() == "Staves" or you.class() == "Earth Elementalist" then
-    SHIELD_CRAZY = FALSE
-  end
-  if you.race == "Ogre" and you.xl() >= 18 then
-    SHIELD_CRAZY = FALSE
-  end
   if SHIELD_CRAZY then
     return true
   end
@@ -1939,9 +1877,6 @@ function want_shield()
   if not want_buckler() then
     return false
   end
-  if wskill() == "Staves" or you.class() == "Earth Elementalist" then
-    SHIELD_CRAZY = FALSE
-  end
   if SHIELD_CRAZY then
     return true
   end
@@ -1955,7 +1890,7 @@ function weapon_choice()
     return "Unarmed Combat"
   elseif sp == "Halfling" or sp == "High Elf" then
     return "Long Blades"
-  elseif sp == "Ogre" or sp == "Kobold" or you.class() == "Earth Elementalist" then
+  elseif sp == "Ogre" or sp == "Kobold" then
     return "Maces & Flails"
   elseif sp == "Merfolk" then
     return "Polearms"
@@ -1972,17 +1907,12 @@ function wskill()
     return c_persist.cached_wskill
   end
   weap = items.equipped_at("Weapon")
-  if weap and weap.weap_skill ~= "Short Blades" then
+  if weap and weap.class(true) == "weapon"
+     and weap.weap_skill ~= "Short Blades"
+     and you.class() ~= "Wanderer" then
     c_persist.cached_wskill = weap.weap_skill
   else
     c_persist.cached_wskill = weapon_choice()
-  end
-  if you.class() == "Earth Elementalist" then
-    if weap and weap.weap_skill == "Staves" then
-      c_persist.cached_wskill = weap.weap_skill
-    else
-      c_persist.cached_wskill = weapon_choice()
-    end
   end
   return c_persist.cached_wskill
 end
@@ -2196,24 +2126,6 @@ function can_slouch()
                mp < 5))
 end
 
-function can_step_from_time()
-  local mp,mmp = you.mp()
-  return (not (you.berserk() or you.confused() or you.silenced() or
-               starving() or
-               you.god() ~= "Cheibriados" or
-               you.piety_rank() < 5 or
-               mp < 10))
-end
-
-function can_temporal_distortion()
-  local mp,mmp = you.mp()
-  return (not (you.berserk() or you.confused() or you.silenced() or
-               starving() or
-               you.god() ~= "Cheibriados" or
-               you.piety_rank() < 3 or
-               mp < 4))
-end
-
 function can_drain_life()
   local mp,mmp = you.mp()
   return (not (you.berserk() or you.confused() or you.silenced() or
@@ -2259,9 +2171,6 @@ end
 
 function can_divine_shield()
   local mp,mmp = you.mp()
-  -- if you.base_skill("Invocations") >= 12 then
-  --    SHIELD_CRAZY = false
-  -- end
   return (not (you.berserk() or you.confused() or you.silenced() or
           starving() or you.piety_rank() < 2 or
           mp < 3 or you.god() ~= "the Shining One" or you.status("divine shield")))
@@ -2287,44 +2196,6 @@ function can_teleport()
           and not you.confused()
           and you.transform() ~= "tree"
           and you.race() ~= "Formicid")
-end
-
-function can_cast_haste()
-  local mp = you.mp()
-    return (not (you.berserk() or you.confused() or you.silenced() or you.hasted() or
-               starving() or you.transform() == "pig" or mp < 6 or you.god() == "Trog" or 
-               (know_spell("Haste") == 0) or you.base_skill("spellcasting") < 5 or 
-               you.base_skill("charms") < 13 )) 
-end
-
-function can_cast_sandblast()
-  local mp = you.mp()
-  if you.class() ~= "Earth Elementalist" or you.mp() == 0 or know_spell("Sandblast") == 0 or you.god() == "Trog" then
-    return 0
-  else
-    return (not (you.berserk() or you.confused() or you.silenced() or
-               starving()))
-  end
-end
-
-function can_cast_stone_arrow()
-  local mp = you.mp()
-  if you.class() ~= "Earth Elementalist" or you.mp() < 3 or know_spell("Stone Arrow") == 0 or you.god() == "Trog" then
-    return 0
-  else
-    return (not (you.berserk() or you.confused() or you.silenced() or
-               starving()))
-  end
-end
-
-function can_cast_lrd()
-  local mp = you.mp()
-  if you.class() ~= "Earth Elementalist" or you.mp() < 5 or know_spell("Lee's Rapid Deconstruction") == 0 or you.god() == "Trog" then
-    return 0
-  else
-    return (not (you.berserk() or you.confused() or you.silenced() or
-               starving()))
-  end
 end
 
 function too_hungry_to_berserk()
@@ -2603,6 +2474,7 @@ function monster_in_way(dx,dy)
                  (m:is_constricted() or m:is_caught()
                   or m:status("petrified")
                   or m:status("paralysed")
+                  or m:desc():find("sleeping")
                   or view.feature_at(0,0) == "deep_water"
                   or view.feature_at(0,0) == "lava"
                   or view.feature_at(0,0) == "trap_zot")))
@@ -2866,6 +2738,19 @@ function distance_to_enemy(cx, cy)
   return dist
 end
 
+function distance_to_tabbable_enemy(cx, cy)
+  local dist = 10
+  local e
+  for _,e in ipairs(enemy_list) do
+    if supdist(cx-e.x,cy-e.y) < dist then
+      if will_tab(e.x,e.y,0,0,mons_tabbable_square) then
+        dist = supdist(cx-e.x,cy-e.y)
+      end
+    end
+  end
+  return dist
+end
+
 -----------------------------------------
 -- item functions
 
@@ -3084,15 +2969,6 @@ function armour_evp()
   end
 end
 
-function spell_encumbrance_penalty()
-  arm = items.equipped_at("Armour")
-  if arm then
-    e = arm.encumbrance
-  end
-  encumbrance = (((200 * e^2 * (450 - 10 * skill_value("Armour")) / 5 * (you.strength() + 3)) / 450) * 19 / 100)
-  return encumbrance
-end
-
 function on_corpses()
   for it in at_feet() do
     if string.find(it.name(), "corpse") then
@@ -3219,6 +3095,12 @@ function should_rest()
       say("Waiting for ranged monster.")
     end
     return true
+  end
+  if not no_spells and starting_spell() then
+    local mp,mmp = you.mp()
+    if mp < mmp then
+      return true
+    end
   end
   return (hp_is_low(90) and
           (you.race() ~= "Deep Dwarf" and you.hunger_name() ~= "bloodless"
@@ -3375,22 +3257,6 @@ end
 -- Will fail if the book is in a non-fire cloud already.
 function burn_spellbooks()
   use_ability("Burn Spellbooks")
-end
-
-function step_from_time()
-  use_ability("Step From Time")
-end
-
-function temporal_distortion()
-  use_ability("Temporal Distortion")
-end
-
-function cast_sandblast()
-  use_spell("Sandblast")
-end
-
-function cast_haste()
-  use_spell("Haste")
 end
 
 function plan_bia()
@@ -4100,38 +3966,6 @@ function plan_burn_spellbooks()
   return false
 end
 
-function plan_step_from_time()
-  if can_step_from_time() and want_to_step_from_time() then
-    step_from_time()
-    return true
-  end
-  return false
-end
-
-function plan_temporal_distortion()
-  if can_temporal_distortion() and want_to_temporal_distortion() then
-    temporal_distortion()
-    return true
-  end
-  return false
-end
-
-function plan_cast_sandblast()
-  if can_cast_sandblast() and want_to_cast_sandblast() and know_spell("Sandblast") then
-    cast_sandblast()
-    return true
-  end
-  return false
-end
-
-function plan_cast_haste()
-  if can_cast_haste() and want_to_cast_haste() and know_spell("Haste") then
-    cast_haste()
-    return true
-  end
-  return false
-end
-
 function plan_learn_spells()
   if try_spells == true then
     for letter, spell in pairs(you.mem_spells()) do
@@ -4196,20 +4030,20 @@ function want_to_sgd()
   return false
 end
 
-function want_to_divine_warrior()
+function want_to_divine_shield()
   if you.skill("Invocations") >= 8 and
-     (check_monsters(LOS, bia_monsters) or hp_is_low(65) and immediate_danger) then
-    if count_divine_warrior(4) == 0 and not you.teleporting() then
+     (check_monsters(LOS, bia_monsters) or hp_is_low(80) and immediate_danger) then
+    if not you.teleporting() then
       return true
     end
   end
   return false
 end
 
-function want_to_divine_shield()
+function want_to_divine_warrior()
   if you.skill("Invocations") >= 8 and
-     (check_monsters(LOS, bia_monsters) or hp_is_low(80) and immediate_danger) then
-    if not you.teleporting() then
+     (check_monsters(LOS, bia_monsters) or hp_is_low(65) and immediate_danger) then
+    if count_divine_warrior(4) == 0 and not you.teleporting() then
       return true
     end
   end
@@ -4362,166 +4196,6 @@ function want_to_stay_in_abyss()
           and count_permafood() > 10 and not hp_is_low(50))
 end
 
-function want_to_cast_sandblast()
-  if danger and not you.teleporting() and distance_to_enemy(0,0) < 3 and you.mp() >= 1 and you.xl() < 14 and you.god() ~= "Trog" then
-    return true
-  end
-    return false
-end
-
-function want_to_cast_haste()
-  return (danger and (hp_is_low(80) or check_monsters(LOS, scary_monsters) or
-                      count_nearby(0,0,LOS) >= 2))
-end
-
-function spell_power(sp)
-  local power = 1
-  local enhancers = 1
-  local wildmagic = 1
-  local augmentation = 1
-  local placidmagic = 1
-  local brilliance = 0
-  local intelligence = you.intelligence() / 10
-  local casting = you.base_skill("Spellcasting")
-  local maxpower = 0
-  if sp == "Sandblast" or sp == "Iron Shot" or sp == "Lee's Rapid Deconstruction" then
-    avg_spell_lvl = you.base_skill("Earth Magic")
-    if sp == "Sandblast" then
-      maxpower = 25
-      if items.equipped_at("Weapon") == "large rocks" or items.equipped_at("Weapon") == "stones" then
-        maxpower = 50
-      end
-    end      
-    if sp == "Lee's Rapid Deconstruction" or sp == "Iron Shot" then
-      maxpower = 200
-    end
-  end
-  if  you.status("brilliance")  then
-    brilliance = 3
-  end
-  power = ((casting / 2) + (2 * (avg_spell_lvl + brilliance)))
-  power = power * enhancers * wildmagic * augmentation * placidmagic
-  power = power * intelligence
-  power = min(power, maxpower)
-  return power
-end
-
-function spell_damage(sp)
-  local dice = 0
-  local powerplus = 0
-  local powerdiv = 0
-  if sp == "Sandblast" then
-    if items.equipped_at("Weapon") == "large rocks" then
-      dice = 3
-      powerplus = 4
-      powerdiv =  3
-    elseif items.equipped_at("Weapon") == "stones" then
-      dice = 2
-      powerplus = 4
-      powerdiv =  3
-    else    
-      dice = 1
-      powerplus = 8
-      powerdiv = 4
-    end
-  end
-  if sp == "Stone Arrow" then
-    dice = 3
-    powerplus = 5
-    powerdiv = 8
-  end
-  if sp == "Iron Shot" then
-    dice = 9
-    powerplus = 1.66
-    powerdiv = 12
-  end
-  if sp == "Lee's Rapid Deconstruction" then
-    dice = 3
-    powerplus = 5
-    powerdiv = 5
-  end
-  dam = dice / 2 * ((powerplus + spell_power(sp) / powerdiv) +1)
-  return dam
-end
-
-function spell_success_rate(sp)
-  local casting = you.base_skill("Spellcasting")
-  local earthmagic = you.base_skill("Earth Magic")
-  local eqshield = items.equipped_at("Shield")
-  if sp == "Sandblast" then
-    splvl = 1 
-  end
-  if sp == "Iron Shot" then
-    splvl = 6
-  end
-  if sp == "Lee's Rapid Deconstruction" then
-    splvl = 5
-  end
-  if splvl == 9 then
-    spdiff = 330
-  elseif splvl == 8 then
-    spdiff = 260
-  elseif splvl == 7 then
-    spdiff = 200
-  elseif splvl == 6 then
-    spdiff = 150
-  elseif splvl == 5 then
-    spdiff = 100
-  elseif splvl == 4 then
-    spdiff = 70 
-  elseif splvl == 3 then
-    spdiff = 35
-  elseif splvl == 2 then
-    spdiff = 15
-  else 
-    spdiff = 3
-  end
-
-  if eqshield then
-    name = eqshield.name
-    if you.race() == "Ogre" or you.race == "Troll" or you.race == "Centaur" or you.race == "Naga" or you.race == "Formicid" then
-      race_sf = -2
-      if (name:find("buckler")) then
-        shield_evp = 2.4
-      elseif (name:find("large shield")) then
-        shield_evp = 15
-      else  
-        shield_evp = 9
-      end
-    elseif you.race == "Kobold" or you.race == "Halfling" then
-      race_sf = 2
-      if (name:find("buckler")) then
-        shield_evp = 5.6
-      elseif (name:find("large shield")) then
-        shield_evp = 25
-      else  
-        shield_evp = 21
-      end
-    else
-      race_sf = 0
-      if (name:find("buckler")) then
-        shield_evp = 4
-      elseif (name:find("large shield")) then
-        shield_evp = 25
-      else  
-        shield_evp = 15
-      end
-    end
-  end
-  base_sp_avg = casting/2 + earthmagic*2
-  spskill = 50 * math.log(1 + base_sp_avg / 50)
-  enc = spell_encumbrance_penalty()
-  armor_penalty = 0.4 * enc * enc * (45 - skill_value("Armour")) / 45 / (you.strength() + 3)
-  if not eqshield then 
-    shield_penalty = 0
-  else 
-    shield_penalty =  shield_evp - (skill_value("Shields")) / (5 + race_sf)
-  end 
-  ac_penalty = 19*shield_penalty + 19*armor_penalty
-  base_fail_rate = 60 - 6*spskill - 2 * you.intelligence() + spdiff + ac_penalty
-  return base_fail_rate
-end
-
 function rejecting_slime()
   local c = find_item("wand", "digging") or
             find_item("wand", "disintegration")
@@ -4628,6 +4302,128 @@ function plan_wait_spit()
     end
   end
   return false
+end
+
+function starting_spell()
+  if you.god() == "Trog" or you.xl() > 9 then
+    no_spells = true
+    return
+  end
+  -- Missing Infusion for now.
+  local spell_list = {"Shock", "Magic Dart", "Sandblast", "Flame Tongue", "Freeze", "Pain", "Summon Small Mammal", "Beastly Appendage", "Sting"}
+  for _,sp in ipairs(spell_list) do
+    if spells.memorised(sp) and spells.fail(sp) <= 25 then
+      return sp
+    end
+  end
+  no_spells = true
+end
+
+function spell_range(sp)
+  if sp == "Summon Small Mammal" then
+    return LOS
+  elseif sp == "Beastly Appendage" then
+    return 4
+  elseif sp == "Sandblast" then
+    return 3
+  else
+    return spells.range(sp)
+  end
+end
+
+function correctly_wielding_stones()
+  local weap = items.equipped_at("Weapon")
+  if weap and weap.subtype() == "stone" and not no_spells and starting_spell() == "Sandblast" and you.xl() < 5 then
+    local mp,mmp = you.mp()
+    if mp > 0 then
+      return true
+    end
+  end
+  return false
+end
+
+function wield_stones()
+  for it in inventory() do
+    if it.subtype() == "stone" then
+      magic("w" .. letter(it))
+      return true
+    end
+  end
+  return false
+end
+
+function spell_castable(sp)
+  if sp == "Beastly Appendage" then
+    if transformed() then
+      return false
+    end
+  elseif sp == "Summon Small Mammal" then
+    local x,y
+    local count = 0
+    for x = -LOS,LOS do
+      for y = -LOS,LOS do
+        m = monster_array[x][y]
+        if m and m:attitude() == ATT_FRIENDLY then
+          count = count + 1
+        end
+      end
+    end
+    if count >= 4 then
+      return false
+    end
+  elseif sp == "Sandblast" then
+    local weap = items.equipped_at("Weapon")
+    if not (weap and weap.subtype() == "stone") then
+      return false
+    end
+  end
+  return true
+end
+
+function plan_starting_spell()
+  if no_spells then
+    return false
+  end
+  if you.silenced() or you.confused() or you.berserk() or starving() then
+    return false
+  end
+  local sp = starting_spell()
+  if not sp then
+    return false
+  end
+  local mp,mmp = you.mp()
+  if mp < spells.mana_cost(sp) then
+    return false
+  end
+  if you.xl() > 4 and not is_waiting then
+    return false
+  end
+  local dist = distance_to_tabbable_enemy(0,0)
+  if dist < 2 and wskill() ~= "Unarmed Combat" then
+    local weap = items.equipped_at("Weapon")
+    if weap and weap.weap_skill == wskill() then
+      return false
+    end
+  end
+  if dist > spell_range(sp) then
+    return false
+  end
+  if sp == "Sandblast" and you.xl() < 5 then
+    local weap = items.equipped_at("Weapon")
+    if not (weap and weap.subtype() == "stone") then
+      return wield_stones()
+    end
+  end
+  if not spell_castable(sp) then
+    return false
+  end
+  say("CASTING " .. sp)
+  if spells.range(sp) > 0 then
+    magic("z" .. spells.letter(sp) .. "f")
+  else
+    magic("z" .. spells.letter(sp))
+  end
+  return true
 end
 
 function plan_wait_throw()
@@ -4814,14 +4610,6 @@ function want_to_burn_spellbooks()
   return BURN_BOOKS and (you.god() == "Trog") and can_read() and see_spellbooks_to_burn()
 end
 
-function want_to_temporal_distortion()
-  return false
-end
-
-function want_to_step_from_time()
-  return (hp_is_low(40) and sense_danger(2) and (you.race() ~= "Deep Dwarf" or dd_want_to_heal_wounds()))
-end
-
 function want_blood()
   return (count_item("potion","of blood") < 10)
 end
@@ -4861,19 +4649,11 @@ function magicfind(target)
 end
 
 function god_options()
-  if you.class() == "Earth Elementalist" then
-    return MU_GOD_LIST
-  else
-    return c_persist.cur_god_list or (you.race() == "Deep Dwarf" and DD_GOD_LIST or GOD_LIST)
-  end
+  return c_persist.cur_god_list or (you.race() == "Deep Dwarf" and DD_GOD_LIST or GOD_LIST)
 end
 
 function god_desired()
-  if you.class() == "Earth Elementalist" then
-    return MU_GOD_DESIRED
-  else
-    return c_persist.cur_god_list or (you.race() == "Deep Dwarf" and DD_GOD_DESIRED or GOD_DESIRED)
-  end
+  return c_persist.cur_god_list or (you.race() == "Deep Dwarf" and DD_GOD_DESIRED or GOD_DESIRED)
 end
 
 function plan_find_altar()
@@ -4885,15 +4665,31 @@ function plan_find_altar()
   return true
 end
 
+function plan_find_conversion_altar()
+  if you.xl() ~= 12 then
+    return false
+  end
+  if you.god() ~= "Lugonu" then
+    return false
+  end
+  if unshafting() then
+    return false
+  end
+  expect_new_location = true
+  conv_gods = { }
+  for _,god in ipairs(god_desired()) do
+    if god ~= "Lugonu" then
+      table.insert(conv_gods, god)
+    end
+  end
+  str = "altar&&<<of " .. table.concat(conv_gods, "||of ") .. ">>"
+  magic(control('f') .. str .. "\ra\r")
+  return true
+end
+
 function plan_abandon_god()
   if you.god() ~= "No God" and not util.contains(god_options(), you.god()) then
     magic("aXYY")
-    return true
-  end
-  if GO_TSO and you.have_rune("silver") and in_branch("D") and you.god() ~= "the Shining One" then
-    magic("aXYY")
-	GOD_LIST = { "the Shining One", }
-    ABYSSAL_RUNE = true
     return true
   end
   return false
@@ -4916,6 +4712,32 @@ function plan_join_beogh()
   end
   for _,god in ipairs(god_desired()) do
     if god == "Beogh" and use_ability("Convert to Beogh", "YY") then
+      return true
+    end
+  end
+  return false
+end
+
+function plan_convert()
+  if you.xl() ~= 12 then
+    return false
+  end
+  if you.god() ~= "Lugonu" then
+    return false
+  end
+  feat = view.feature_at(0,0)
+  for _,god in ipairs(god_desired()) do
+    if god ~= "Lugonu" and feat == ("altar_" .. string.gsub(string.lower(god), " ", "_")) then
+      if you.silenced() then
+        rest()
+      else
+        for i,br in ipairs(c_persist.branches_entered) do
+          if br == "L" then
+            table.remove(c_persist.branches_entered,i)
+          end
+        end
+        magic("pYYY")
+      end
       return true
     end
   end
@@ -4959,8 +4781,7 @@ function plan_drop_other_items()
     if it.class(true) == "missile" and not want_missile(it) or
        it.class(true) == "wand" and not want_wand(it) or
        it.class(true) == "potion" and not want_potion(it) or
-       it.class(true) == "scroll" and not want_scroll(it) or
-	   it.class(true) == "book" and not want_book(it) then
+       it.class(true) == "scroll" and not want_scroll(it) then
       say("DROPPING " .. it.name() .. ".")
       magic("d" .. letter(it) .. "\r")
       return true
@@ -5087,7 +4908,7 @@ function body_armour_is_good(arm)
   elseif ap == "dodgy" then
     return (name:find("ring mail") or name:find("robe of resistance"))
   else
-    return name:find("robe of resistance")
+    return name:find("robe of fire resistance")
   end
 end
 
@@ -5117,24 +4938,17 @@ function plan_use_good_consumables()
         end
       elseif it.name():find("enchant weapon") then
         weapon = items.equipped_at("weapon")
-        if weapon and not weapon.artefact and
+        if weapon and weapon.class(true) == "weapon" and not weapon.artefact and
            weapon.plus < 9 then
           oldname = weapon.name()
-          if (oldname:find("war axe") or oldname:find("flail") or oldname:find("dire flail") or oldname:find("quarterstaff")) and 
-            weapon.plus < 2 then
-            return false
-          elseif oldname:find("hand axe") or oldname:find("mace") or oldname:find("spear") then
-            return false
-          else
-            if read2(it, letter(weapon)) then
-              say("ENCHANTING " .. oldname .. ".")
-              return true
-            end
+          if read2(it, letter(weapon)) then
+            say("ENCHANTING " .. oldname .. ".")
+            return true
           end
         end
       elseif it.name():find("brand weapon") then
         weapon = items.equipped_at("weapon")
-        if weapon and not weapon.artefact and not brand_is_great(weapon.ego()) then
+        if weapon and weapon.class(true) == "weapon" and not weapon.artefact and not brand_is_great(weapon.ego()) then
           oldname = weapon.name()
           if read2(it, letter(weapon)) then
             say("BRANDING " .. oldname .. ".")
@@ -5239,13 +5053,15 @@ function base_mutation(str)
 end
 
 function plan_wield_weapon()
-  if items.equipped_at("Weapon") or you.berserk() or transformed() then
+  local weap = items.equipped_at("Weapon")
+  if weap and weap.class(true) == "weapon" or you.berserk() or transformed() then
     return false
   end
-  if wskill() == "Unarmed Combat" then
+  if wskill() == "Unarmed Combat" or correctly_wielding_stones() then
     return false
   end
-  if it and it.class(true) == "weapon" then
+  for it in inventory() do
+    if it and it.class(true) == "weapon" then
       if should_equip(it) and (not it.name():find("vamp") or intrinsic_undead()) then
         l = items.index_to_letter(it.slot)
         say("Wielding weapon " .. it.name() .. ".")
@@ -5253,12 +5069,16 @@ function plan_wield_weapon()
         -- this might have a 0-turn fail because of unIDed vamp/holy
         return nil
       end
+    end
+  end
+  if weap and weap.class(true) ~= "weapon" then
+    magic("w-")
   end
   return false
 end
 
 function plan_swap_weapon()
-  if you.race() == "Troll" or you.berserk() or transformed() or not items.equipped_at("Weapon") then
+  if you.race() == "Troll" or you.berserk() or transformed() or not items.equipped_at("Weapon") or correctly_wielding_stones() then
     return false
   end
   local hydra_near = false
@@ -5305,7 +5125,7 @@ function plan_swap_weapon()
 end
 
 function plan_upgrade_weapon()
-  if you.race() == "Troll" then
+  if you.race() == "Troll" or correctly_wielding_stones() then
     return false
   end
   twohands = true
@@ -5546,7 +5366,7 @@ function plan_go_down()
 end
 
 function ready_for_lair()
-  if you.god() == "Trog" or you.god() == "Cheibriados" or you.god() == "Okawaru" or you.god() == "Qazlal" or you.god() == "the Shining One" or
+  if you.god() == "Trog" or you.god() == "Cheibriados" or you.god() == "Okawaru" or you.god() == "Qazlal" or you.god() == "the Shining One" or you.god() == "Lugonu" or
      (you.god() == "Beogh" or you.god() == "Makhleb" or you.god() == "Yredelemnul") and you.piety_rank() >= 4 or
      you.god() == "Ru" and you.piety_rank() >= 3 then
     return true
@@ -5762,20 +5582,10 @@ function plan_go_to_temple()
   if c and c >= 100 then
     return false
   end
-  if found_branch("T") and want_altar() and not
+  if found_branch("T") and (want_altar() or you.god() == "Lugonu") and not
      util.contains(c_persist.branches_entered, "T") and in_branch("D") then
     expect_new_location = true
     magic("GTY")
-    return true
-  end
-  return false
-end
-
-function plan_go_to_lair()
-  if found_branch("L") and not
-     util.contains(c_persist.branches_entered, "T") and in_branch("D") then
-    expect_new_location = true
-    magic("GL\rY")
     return true
   end
   return false
@@ -5939,8 +5749,22 @@ function plan_zig_leave_level()
   return false
 end
 
+function plan_lugonu_exit_abyss()
+  if you.god() ~= "Lugonu" then
+    return false
+  end
+  local mp,mmp = you.mp()
+  if (you.berserk() or you.confused() or you.silenced() or starving()
+          or you.piety_rank() < 1 or mp < 1) then
+    return false
+  end
+  expect_new_location = true
+  use_ability("Depart the Abyss")
+  return true
+end
+
 function plan_exit_abyss()
-  if view.feature_at(0,0) == "exit_abyss" and not want_to_stay_in_abyss() and not you.mesmerised() then
+  if view.feature_at(0,0) == "exit_abyss" and not want_to_stay_in_abyss() and not you.mesmerised() and you.transform() ~= "tree" then
     expect_new_location = true
     magic("<")
     return true
@@ -6185,18 +6009,12 @@ function plan_find_downstairs()
 end
 
 function plan_stuck()
-  local feat = view.feature_at(0,0)
   if starving() then
     return random_step("starving")
   end
   stuck_turns = stuck_turns + 1
-  if feat:find("stone_stairs_down") or feat:find("escape_hatch_down") then
-    expect_new_location = true
-    magic(">")
-    return true
-  end
   if stuck_turns > QUIT_TURNS then
-    magic(control('s') .. "yes\r")
+    magic(control('q') .. "yes\r")
     return true
   end
   return random_step("stuck")
@@ -6528,7 +6346,7 @@ function plan_stuck_dig()
 end
 
 function plan_slime_dig_to_rune()
-  if where ~= "Slime:5" or you.have_rune("slimy") then
+  if where ~= "Slime:6" or you.have_rune("slimy") then
     return false
   end
   vlist = { {-1,-1}, {-1,1}, {1,-1}, {1,1} }
@@ -6553,7 +6371,7 @@ function plan_slime_dig_to_rune()
 end
 
 function plan_slime_go_to_rune()
-  if where ~= "Slime:5" or you.have_rune("slimy") then
+  if where ~= "Slime:6" or you.have_rune("slimy") then
     return false
   end
   x = 2*crawl.random2(2)-1
@@ -6564,7 +6382,7 @@ function plan_slime_go_to_rune()
 end
 
 function plan_slime_forget_map()
-  if where ~= "Slime:5" or slime_forgot_map or you.have_rune("slimy") then
+  if where ~= "Slime:6" or slime_forgot_map or you.have_rune("slimy") then
     return false
   end
   slime_forgot_map = true
@@ -7000,7 +6818,6 @@ plan_emergency = cascade {
   {plan_bia, "bia"},
   {plan_sgd, "sgd"},
   {plan_divine_warrior, "divine_warrior"},
-  {plan_cast_haste, "cast_haste"},
   {plan_divine_shield, "divine_shield"},
   {plan_apocalypse, "try_apocalypse"},
   {plan_slouch, "try_slouch"},
@@ -7012,7 +6829,6 @@ plan_emergency = cascade {
   {plan_finesse, "finesse"},
   {plan_drac_dig, "try_drac_dig"},
   {plan_berserk, "berserk"},
-  {plan_cast_sandblast, "cast_sandblast"},
   {plan_other_step, "other_step"},
 } -- hack
 
@@ -7094,6 +6910,7 @@ plan_move = cascade {
   {plan_emergency, "emergency"},
   {plan_recall, "recall"},
   {plan_wait_for_melee, "wait_for_melee"},
+  {plan_starting_spell, "try_starting_spell"},
   {plan_wait_spit, "try_wait_spit"},
   {plan_wait_throw, "try_wait_throw"},
   {plan_wait_wait, "wait_wait"},
@@ -7107,10 +6924,11 @@ plan_move = cascade {
   {plan_continue_tab, "continue_tab"},
   {plan_abandon_god, "abandon_god"},
   {plan_unwield_weapon, "unwield_weapon"},
+  {plan_convert, "convert"},
   {plan_join_god, "join_god"},
+  {plan_find_conversion_altar, "try_find_conversion_altar"},
   {plan_find_altar, "try_find_altar"},
   {plan_go_to_temple, "try_go_to_temple"},
-  --{plan_go_to_lair, "try_go_to_lair"},
   {plan_explore, "explore"},
   {plan_pre_explore2, "pre_explore2"},
   {plan_explore2, "explore2"},
@@ -7144,6 +6962,7 @@ plan_orbrun_move = cascade {
 } -- hack
 
 plan_abyss_move = cascade {
+  {plan_lugonu_exit_abyss, "lugonu_exit_abyss"},
   {plan_exit_abyss, "exit_abyss"},
   {plan_emergency, "emergency"},
   {plan_attack, "attack"},
@@ -7205,11 +7024,7 @@ function skill_value(sk)
     local val2 = base_ac()/22
     return val1 + val2
   elseif sk == "Fighting" then
-    if you.race() == "Gargoyle" then
-      return 1.25
-    else
-      return 0.75
-    end
+    return 0.75
   elseif sk == "Shields" then
     local shield = items.equipped_at("Shield")
     if not shield then
@@ -7250,34 +7065,39 @@ function choose_skills()
 
   -- Choose one MP skill to train.
   mp_skill = "Evocations"
-  if you.god() == "Makhleb" or you.god() == "Cheibriados" or you.god() == "Okawaru" or you.god() == "Yredelemnul" or you.god() == "Beogh" or you.god() == "Qazlal" or you.god() == "the Shining One" then
+  if you.god() == "Makhleb" or you.god() == "Cheibriados" or you.god() == "Okawaru" or you.god() == "Yredelemnul" or you.god() == "Beogh" or you.god() == "Qazlal" or you.god() == "the Shining One" or you.god() == "Lugonu" then
     mp_skill = "Invocations"
   elseif you.god() == "Ru" then
     mp_skill = "Spellcasting"
   end
   mp_skill_level = you.base_skill(mp_skill)
   bmp = you.base_mp()
-  if you.race() == "Deep Dwarf" and you.god() == "the Shining One" then
-    if bmp <= 15 then
-      mp_skill = "Spellcasting"
-      table.insert(skills, mp_skill)
-    else
-      mp_skill = "Invocations"
-    end
-    if mp_skill == "Invocations" then
-      if you.base_skill("Fighting") >= 23 or you.base_skill(mp_skill) < 10 then
-        table.insert(skills, mp_skill)
-      end
-    end
+  if you.god() == "Makhleb" and you.piety_rank() >= 2 and mp_skill_level < 15 then
+    table.insert(skills, mp_skill)
+  elseif you.god() == "the Shining One" and you.piety_rank() >= 5 and mp_skill_level < 12 then
+    table.insert(skills, mp_skill)
+  elseif you.god() == "the Shining One" and (bmp <= 8 or you.base_skill(mp_skill) <= 8 or (you.xl() >= you.base_skill(mp_skill) + 3) or 
+  (you.xl() == 27 and you.base_skill(mp_skill) < 27)) then
+    table.insert(skills, mp_skill)
+  elseif you.god() == "Okawaru" and you.piety_rank() >= 1 and mp_skill_level < 4 then
+    table.insert(skills, mp_skill)
+  elseif you.god() == "Okawaru" and you.piety_rank() >= 4 and mp_skill_level < 10 then
+    table.insert(skills, mp_skill)
+  elseif you.god() == "Cheibriados" and you.piety_rank() >= 5 and mp_skill_level < 8 then
+    table.insert(skills, mp_skill)
+  elseif you.god() == "Yredelemnul" and you.piety_rank() >= 4 and (mp_skill_level < 8 or you.race() == "Deep Dwarf" and bmp < 10) then
+    table.insert(skills, mp_skill)
+  elseif you.race() == "Deep Dwarf" and you.god() ~= "No God"
+         and (bmp < 5 or mp_skill_level < 2 or mp_skill ~= "Spellcasting" and mp_skill_level < 4) then
+    table.insert(skills, mp_skill)
+  elseif you.race() == "Vine Stalker" and you.god() ~= "No God"
+         and mp_skill_level < 12
+         and (at_min_delay() or you.base_skill(wskill())
+                                >= 3*mp_skill_level) then
+    table.insert(skills, mp_skill)
   end
-  if mp_skill == "Invocations" then
-    if you.god() == "the Shining One" then
-      if bmp <= 8 or you.base_skill(mp_skill) <= 8 or (you.xl() >= you.base_skill(mp_skill) + 3) or you.xl() == 27 then
-        table.insert(skills, mp_skill)
-      end
-    end
 
-    if try_spells then
+  if try_spells then
       magic_skills = { "Charms", "Spellcasting", }
       local best_msk
       local best_magutility = 0
@@ -7301,40 +7121,7 @@ function choose_skills()
         table.insert(skills, best_msk)
       end
     end
-  end
 
-  if you.class() == "Earth Elementalist" then 
-    table.insert(skills, "Earth Magic")
-    if you.base_skill("Spellcasting") < 15 or (you.base_skill("Spellcasting") < you.xl()) then
-      table.insert(skills, "Spellcasting")
-    end
-  end
-
-  if mp_skill == "Evocations" then
-    if you.god() == "Makhleb" and you.piety_rank() >= 2 and mp_skill_level < 15 then
-      table.insert(skills, mp_skill)
-    elseif you.god() == "Snuffle" then --hack needed for amulent of guardian spirit
-      table.insert(skills, mp_skill)
-    elseif you.god() == "the Shining One" and you.piety_rank() >= 5 and mp_skill_level < 12 then
-      table.insert(skills, mp_skill)
-    elseif you.god() == "Okawaru" and you.piety_rank() >= 1 and mp_skill_level < 4 then
-      table.insert(skills, mp_skill)
-    elseif you.god() == "Okawaru" and you.piety_rank() >= 4 and mp_skill_level < 10 then
-      table.insert(skills, mp_skill)
-    elseif you.god() == "Cheibriados" and you.piety_rank() >= 5 and mp_skill_level < 8 then
-      table.insert(skills, mp_skill)
-    elseif you.god() == "Yredelemnul" and you.piety_rank() >= 4 and (mp_skill_level < 8 or you.race() == "Deep Dwarf" and bmp < 10) then
-      table.insert(skills, mp_skill)
-    elseif you.race() == "Deep Dwarf" and you.god() ~= "No God"
-           and (bmp < 5 or mp_skill_level < 2 or mp_skill ~= "Spellcasting" and mp_skill_level < 4) then
-      table.insert(skills, mp_skill)
-    elseif you.race() == "Vine Stalker" and you.god() ~= "No God"
-           and mp_skill_level < 12
-           and (at_min_delay() or you.base_skill(wskill())
-                                  >= 3*mp_skill_level) then
-      table.insert(skills, mp_skill)
-    end
-  end
   skills2 = {}
   safe_count = 0
   for _,sk in ipairs(skills) do
@@ -7371,12 +7158,7 @@ end
 
 function choose_stat_gain()
   local ap = armour_plan()
-  if you.intelligence() < 15 and know_spell("Haste") then
-    return "i"
-  end
-  if is_magic_user() then
-    return "i"
-  elseif ap == "heavy" or ap == "large" then
+  if ap == "heavy" or ap == "large" then
     return "s"
   elseif ap == "light" then
     return "d"
@@ -7595,6 +7377,8 @@ function fullgodname(g)
     return "Beogh"
   elseif g == "C" then
     return "Cheibriados"
+  elseif g == "L" then
+    return "Lugonu"
   elseif g == "M" then
     return "Makhleb"
   elseif g == "O" then
@@ -7769,7 +7553,7 @@ function c_answer_prompt(prompt)
   if prompt:find("You cannot afford") and prompt:find("travel there anyways") then
     return true
   end
-  if prompt:find("Shopping%-list") then
+  if prompt:find("Shopping list") then
     return false
   end
 end
