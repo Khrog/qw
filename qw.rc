@@ -194,6 +194,7 @@ local dump_count = you.turns() + 100 - (you.turns() % 100)
 local skill_count = you.turns() - (you.turns() % 5)
 local danger
 local immediate_danger
+local cloudy
 local where = you.where()
 local where_shafted_from = nil
 local expect_new_location
@@ -251,6 +252,7 @@ local is_waiting
 local did_first_turn = false
 
 local stairdance_count = {}
+local clear_exclusion_count = {}
 local v5_entry_turn
 
 local slime_forgot_map = false
@@ -1085,7 +1087,7 @@ function amulet_value(it, cur, it2)
     end
   end
   if subtype == "amulet of faith" then
-    if you.god() == "Cheibriados" or you.god() == "Beogh" or you.god() == "Qazlal" then
+    if you.god() == "Cheibriados" or you.god() == "Beogh" or you.god() == "Qazlal" or you.god() == "Lugonu" then
       return -1,-1 -- we don't use piety much on these gods at the moment
     elseif you.god() ~= "Ru" then
       return 1000,1000 -- fixed value so we don't unequip for a randart one
@@ -1564,6 +1566,7 @@ local scary_monsters = {
   {20, "ettin"},
   {20, "Polyphemus"},
   {20, "Bai Suzhen"},
+  {20, "merfolk avatar"},
 
   {24, check_resist("storm dragon","rElec",1)},
   {24, check_resist("fire giant","rF",1)},
@@ -1716,6 +1719,8 @@ local hand_monsters = {
   {100, "the Enchantress"},
   {100, "satyr"},
   {100, "vampire knight"},
+  {100, "siren"},
+  {100, "merfolk avatar"},
 } -- hack
 
 -- potion of resistance these
@@ -1932,6 +1937,16 @@ function hp_is_low(percentage)
   return (100*hp <= percentage*mhp)
 end
 
+function chp()
+  local hp, mhp = you.hp()
+  return hp
+end
+
+function cmp()
+  local mp, mmp = you.mp()
+  return mp
+end
+
 function meph_immune()
   -- should also check clarity and unbreathing
   return (you.res_poison() >= 1)
@@ -2063,8 +2078,7 @@ function can_zap()
   end
   local x = you.mutation("MP-powered wands")
   if x > 0 then
-    local a,b = you.mp()
-    if a < 3*x then
+    if cmp() < 3*x then
       return false
     end
   end
@@ -2086,13 +2100,12 @@ function can_berserk()
 end
 
 function can_heroism()
-  local mp,mmp = you.mp()
   return (not (you.berserk() or you.confused() or you.silenced() or
                starving() or
                you.god() ~= "Okawaru" or
                you.piety_rank() < 1 or
                you.status("heroism") or
-               mp < 2))
+               cmp() < 2))
 end
 
 function can_recall()
@@ -2100,39 +2113,35 @@ function can_recall()
      and (you.god() ~= "Beogh" or you.piety_rank() < 4) then
     return false
   end
-  local mp,mmp = you.mp()
   return (not (you.berserk() or you.confused() or you.silenced() or
                starving() or
                you.status("recalling") or
-               mp < 2))
+               cmp() < 2))
 end
 
 function can_finesse()
-  local mp,mmp = you.mp()
   return (not (you.berserk() or you.confused() or you.silenced() or
                starving() or
                you.god() ~= "Okawaru" or
                you.piety_rank() < 5 or
                you.status("finesse") or
-               mp < 5))
+               cmp() < 5))
 end
 
 function can_slouch()
-  local mp,mmp = you.mp()
   return (not (you.berserk() or you.confused() or you.silenced() or
                starving() or
                you.god() ~= "Cheibriados" or
                you.piety_rank() < 4 or
-               mp < 5))
+               cmp() < 5))
 end
 
 function can_drain_life()
-  local mp,mmp = you.mp()
   return (not (you.berserk() or you.confused() or you.silenced() or
                starving() or
                you.god() ~= "Yredelemnul" or
                you.piety_rank() < 4 or
-               mp < 6))
+               cmp() < 6))
 end
 
 function can_hand()
@@ -2149,10 +2158,9 @@ function can_ru_healing()
 end
 
 function can_apocalypse()
-  local mp,mmp = you.mp()
   return (not (you.berserk() or you.confused() or you.silenced() or
           starving() or you.exhausted() or you.piety_rank() < 5 or
-          mp < 8 or you.god() ~= "Ru"))
+          cmp() < 8 or you.god() ~= "Ru"))
 end
 
 function can_bia()
@@ -2162,32 +2170,28 @@ function can_bia()
 end
 
 function can_sgd()
-  local hp,mhp = you.hp()
   return (not (you.berserk() or you.confused() or you.silenced() or
           starving() or you.piety_rank() < 5 or
-          hp <= 10 or
+          chp() <= 10 or
           you.god() ~= "Makhleb"))
 end
 
 function can_divine_shield()
-  local mp,mmp = you.mp()
   return (not (you.berserk() or you.confused() or you.silenced() or
           starving() or you.piety_rank() < 2 or
-          mp < 3 or you.god() ~= "the Shining One" or you.status("divine shield")))
+          cmp() < 3 or you.god() ~= "the Shining One" or you.status("divine shield")))
 end
 
 function can_divine_warrior()
-  local mp,mmp = you.mp()
   return (not (you.berserk() or you.confused() or you.silenced() or
           starving() or you.piety_rank() < 5 or
-          mp < 8 or you.god() ~= "the Shining One"))
+          cmp() < 8 or you.god() ~= "the Shining One"))
 end
 
 function can_destruction()
-  local hp,mhp = you.hp()
   return (not (you.berserk() or you.confused() or you.silenced() or
           starving() or you.piety_rank() < 4 or
-          hp <= 6 or
+          chp() <= 6 or
           you.god() ~= "Makhleb"))
 end
 
@@ -3106,7 +3110,7 @@ function should_rest()
           (you.race() ~= "Deep Dwarf" and you.hunger_name() ~= "bloodless"
            or you.regenerating())
           or you.slowed() or you.exhausted() or you.teleporting()
-          or you.status("manticore barbs")
+          or you.status("barbed spikes")
           or you.silencing() or you.corrosion() > 0
           or you.god() == "Makhleb" and you.turns() <= sgd_timer + 100
           or should_ally_rest())
@@ -3453,8 +3457,7 @@ function plan_dd_recharge_teleport()
       end
     end
   end
-  local mp,mmp = you.mp()
-  if mp > 0 and you.base_mp() > 0 then
+  if cmp() > 0 and you.base_mp() > 0 then
     for letter, abil in pairs(you.ability_table()) do
       if abil == "Device Recharging" then
         say("MP-RECHARGING " .. item(wand_letter).name() .. ".")
@@ -3505,8 +3508,7 @@ function plan_dd_orbrun_recharge_hasting()
       end
     end
   end
-  local mp,mmp = you.mp()
-  if mp > 0 and you.base_mp() > 0 then
+  if cmp() > 0 and you.base_mp() > 0 then
     for letter, abil in pairs(you.ability_table()) do
       if abil == "Device Recharging" then
         say("MP-RECHARGING " .. item(wand_letter).name() .. ".")
@@ -3553,8 +3555,7 @@ function plan_dd_recharge_heal_wounds()
       end
     end
   end
-  local mp,mmp = you.mp()
-  if mp > 0 and you.base_mp() > 0 then
+  if cmp() > 0 and you.base_mp() > 0 then
     for letter, abil in pairs(you.ability_table()) do
       if abil == "Device Recharging" then
         say("MP-RECHARGING " .. item(wand_letter).name() .. ".")
@@ -5052,9 +5053,14 @@ function base_mutation(str)
   return you.mutation(str) - you.temp_mutation(str)
 end
 
+function is_melee_weapon(it)
+  return (it and it.class(true) == "weapon" and it.weap_skill ~= "Bows"
+          and it.weap_skill ~= "Crossbows" and it.weap_skill ~= "Slings")
+end
+
 function plan_wield_weapon()
   local weap = items.equipped_at("Weapon")
-  if weap and weap.class(true) == "weapon" or you.berserk() or transformed() then
+  if is_melee_weapon(weap) or you.berserk() or transformed() then
     return false
   end
   if wskill() == "Unarmed Combat" or correctly_wielding_stones() then
@@ -5071,8 +5077,9 @@ function plan_wield_weapon()
       end
     end
   end
-  if weap and weap.class(true) ~= "weapon" then
+  if weap and not is_melee_weapon(weap) then
     magic("w-")
+    return true
   end
   return false
 end
@@ -5273,6 +5280,9 @@ function plan_maybe_upgrade_armour()
 end
 
 function plan_upgrade_armour()
+  if cloudy or you.mesmerized() then
+    return false
+  end
   for it in inventory() do
     if it and it.class(true) == "armour" and not it.equipped then
       local st, _ = it.subtype()
@@ -5842,6 +5852,9 @@ function choose_lair_rune_branch()
 end
 
 function plan_new_travel()
+  if cloudy then
+    return false
+  end
   local back_to_D_places = { "Temple", "Orc:2", "Vaults:4", "Elf:3", "Crypt:3"}
   if util.contains(back_to_D_places, where) then
     travel_destination = "D"
@@ -6199,6 +6212,16 @@ function plan_orbrun_teleport()
   return false
 end
 
+function plan_stuck_clear_exclusions()
+  local n = clear_exclusion_count[where] or 0
+  if n > 20 then
+    return false
+  end
+  clear_exclusion_count[where] = n+1
+  magic("X" .. control('e'))
+  return true
+end
+
 function plan_swamp_clear_exclusions()
   if where ~= "Swamp:4" then
     return false
@@ -6397,6 +6420,13 @@ function plan_stuck_teleport()
   return false
 end
 
+function plan_stuck_cloudy()
+  if cloudy and not hp_is_low(50) and not you.mesmerised() then
+    return random_step("cloudy")
+  end
+  return false
+end
+
 function read(c)
   if not can_read() then
     return false
@@ -6475,9 +6505,8 @@ function teleport()
 end
 
 function plan_cure_poison()
-  local hp, mhp = you.hp()
   if you.poison_survival() <= 1 and you.poisoned()
-     or you.race() == "Deep Dwarf" and you.poison_survival() <= hp - 10 then
+     or you.race() == "Deep Dwarf" and you.poison_survival() <= chp() - 10 then
     if drink_by_name("curing") then
       say("(to cure poison)")
       return true
@@ -6648,7 +6677,11 @@ function use_spell(name, extra, mute)
       if not mute or SPAM then
         say("CASTING " .. name .. ".")
       end
-      magic("z" .. letter .. "f")
+      if spells.range(spell) > 0 then
+          magic("z" .. spells.letter(sp) .. "f")
+        else
+          magic("z" .. spells.letter(sp))
+      end
       return true
     end
   end
@@ -6939,6 +6972,7 @@ plan_move = cascade {
   {plan_slime_forget_map, "try_slime_forget_map"},
   {plan_slime_go_to_rune, "try_slime_go_to_rune"},
   {plan_stuck_dig, "try_stuck_dig"},
+  {plan_stuck_cloudy, "stuck_cloudy"},
   {plan_stuck_teleport, "stuck_teleport"},
   {plan_stuck, "stuck"},
 } -- hack
@@ -6954,7 +6988,8 @@ plan_orbrun_move = cascade {
   {plan_use_good_consumables, "use_good_consumables"},
   {plan_find_upstairs, "try_find_upstairs"},
   {plan_disturbance_random_step, "disturbance_random_step"},
-  --{plan_stuck_clear_exclusions, "try_stuck_clear_exclusions"},
+  {plan_stuck_clear_exclusions, "try_stuck_clear_exclusions"},
+  {plan_stuck_cloudy, "stuck_cloudy"},
   {plan_stuck_teleport, "stuck_teleport"},
   {plan_autoexplore, "try_autoexplore"},
   {plan_gd1, "try_gd1"},
@@ -6972,6 +7007,7 @@ plan_abyss_move = cascade {
   {plan_pre_explore, "pre_explore"},
   {plan_autoexplore, "try_autoexplore"},
   {plan_pre_explore2, "pre_explore2"},
+  {plan_stuck_cloudy, "stuck_cloudy"},
   {plan_wait, "wait"},
 } -- hack
 
@@ -7475,6 +7511,7 @@ function ready()
     update_monster_array()
     danger = sense_danger(LOS)
     immediate_danger = sense_immediate_danger()
+    cloudy = (not view.is_safe_square(0,0) and view.cloud_at(0,0) ~= nil)
     sense_sigmund()
     if have_message then
       plan_message()
